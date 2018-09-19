@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    pod-name: cas-mysql
+  name: cas-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-name: cas-mysql
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        pod-name: cas-mysql
+      name: cas-mysql
+    spec:
+      nodeSelector:
+        "huawei.cas.node": "cas-database"
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: Huawei@123
+        image: 10.122.251.85:5000/cas-tools/mysql:5.7
+        imagePullPolicy: IfNotPresent
+        name: cas-mysql
+        resources:
+          requests:
+            cpu: 300m
+            memory: 1024Mi
+          limits:
+            cpu: 2000m
+            memory: 4096Mi
+        ports:
+        - containerPort: 3306
+          hostPort: 3306
+          name: http
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: casdb
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /home/paas/casdbdata
+        name: casdb
