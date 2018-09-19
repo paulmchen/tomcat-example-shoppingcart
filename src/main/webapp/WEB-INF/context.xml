@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+	<Resource name="jdbc/casdb" auth="Container" type="javax.sql.DataSource"
+		  maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+		  username="root" password="Huawei@123" driverClassName="com.mysql.jdbc.Driver"
+		  url="jdbc:mysql://xx.xx.xx.xx:30218/shopping_cart?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF8"/>
+
+</Context>
